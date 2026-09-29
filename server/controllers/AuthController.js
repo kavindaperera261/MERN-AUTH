@@ -160,7 +160,7 @@ export const sendVerifyOtp = async (req,res)=>{
             })
         }
 
-        const otp = Sring(Math.floor(100000 + Math.random() * 900000));
+        const otp = String(Math.floor(100000 + Math.random() * 900000));
 
         user.verifyOtp = otp;
         user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 1000;
@@ -169,7 +169,7 @@ export const sendVerifyOtp = async (req,res)=>{
         
         const mailOption = {
             from:process.env.SENDER_EMAIL,
-            to:email,
+            to:user.email,
             subject:"Account Verification OTP",
             text:`Your OTP is ${otp} , Verify your Account using this OTP`
         }
@@ -189,7 +189,7 @@ export const sendVerifyOtp = async (req,res)=>{
     }
 }
 
-const verifyEmail = async (req,res)=>{
+export const verifyEmail = async (req,res)=>{
     const {userId, otp} = req.body;
     
     if(!userId || !otp){
